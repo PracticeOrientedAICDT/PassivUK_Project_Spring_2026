@@ -12,7 +12,7 @@
 [![project_license][license-shield]][license-url]
 
 
-<h3 align="center"># PassivUK Project Spring 2026</h3>
+<h3 align="center">PassivUK Project Spring 2026</h3>
 
   <p align="center">
     This project looked at exploring how explainable AI (XAI) techniques could be used to give informative data displays to users of the PassivUK Smart Heat Pump Thermostat system.
