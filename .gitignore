@@ -209,5 +209,6 @@ __marimo__/
 # Project specific
 *.csv
 data/
+results/
 *venv/
 .DS_Store
