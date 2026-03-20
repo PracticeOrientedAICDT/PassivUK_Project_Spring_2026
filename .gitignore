@@ -210,5 +210,7 @@ __marimo__/
 *.csv
 data/
 results/
+models/
+API_key.txt
 *venv/
 .DS_Store
