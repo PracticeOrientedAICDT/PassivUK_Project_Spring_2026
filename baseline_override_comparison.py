@@ -414,16 +414,14 @@ def main():
     extra_cost = total_over_cost - total_base_cost
 
     print()
-    print("=" * 60)
     print("  Results")
-    print("=" * 60)
     print(f"  {'':25s}  {'Baseline':>10}  {'Override':>10}  {'Diff':>8}")
     print(f"  {'─'*25}  {'─'*10}  {'─'*10}  {'─'*8}")
     print(f"  {'Energy (kWh)':25s}  {total_base_kwh:>10.3f}  {total_over_kwh:>10.3f}  {extra_kwh:>+8.3f}")
     print(f"  {'Cost (£)':25s}  {total_base_cost:>10.4f}  {total_over_cost:>10.4f}  {extra_cost:>+8.4f}")
     print(f"\n  The override cost an extra £{extra_cost:.4f} "
           f"({extra_kwh:.3f} kWh) vs leaving the schedule alone.")
-    print("=" * 60)
+
     print()
 
     plot(s1, s2_base, s2_over, s3_base, s3_over, override_dt, override_end_dt)
