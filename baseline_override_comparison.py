@@ -333,9 +333,7 @@ def main():
     override_hour   = override_dt.hour + override_dt.minute / 60
 
     print()
-    print("=" * 60)
     print("  Baseline vs Override Comparison")
-    print("=" * 60)
     print(f"  Date:         {midnight_dt.date()}")
     print(f"  Override:     Zone {OVERRIDE_ZONE} → {OVERRIDE_SETPOINT}°C "
           f"at {OVERRIDE_DATETIME[11:16]}, ends {int(OVERRIDE_END_HOUR):02d}:00")
