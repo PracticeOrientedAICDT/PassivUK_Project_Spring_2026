@@ -1,9 +1,10 @@
 import ast
 import pandas as pd
 from pathlib import Path
+import numpy as np
 
 # load event files
-data_path = Path("PSTData5")
+data_path = Path("data/PSTData5")
 event_files = data_path.glob("*_Events_*.csv")
 
 houses = {}
@@ -28,6 +29,9 @@ def reformat_schedule(payload):
         
     # find schedule for each day of the week
     schedule = {}
+    schedule["type"] = data.get("type")
+    schedule["zone"] = data.get("zone")
+    schedule["mode"] = data.get("mode")
     for day in ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]:
         day_schedule = []
         for event in week_schedule:
@@ -79,6 +83,9 @@ Path("PSTData5_reformat").mkdir(exist_ok = True) # create new directory for refo
 
 for house_id, df_house in houses.items():
     df = df_house.copy()
+    
+    # Ensure Payload column can hold complex objects like dictionaries
+    df["Payload"] = df["Payload"].astype(object)
     
     mask = df["Type"] == "Schedule" # only change 'Schedule' rows
     schedule_payloads = df.loc[mask, "Payload"]
