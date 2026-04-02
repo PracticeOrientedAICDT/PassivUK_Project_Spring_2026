@@ -1,7 +1,6 @@
 import ast
 import pandas as pd
 from pathlib import Path
-import numpy as np
 
 # load event files
 data_path = Path("data/PSTData5")
