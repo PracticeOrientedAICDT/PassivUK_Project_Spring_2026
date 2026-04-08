@@ -48,9 +48,9 @@ def plot_temp_power(df, num_zones):
 
     # --- Panel 2: Heat pump power ---
     ax = axes[1]
-    ax.plot(dts, df["Input Power Z1"], label="HP Input Power Z1",  color="mediumseagreen", linewidth=1.5)
+    ax.plot(dts, df["Input Power"], label="HP Input Power",  color="mediumseagreen", linewidth=1.5)
     try:
-        ax.plot(dts, df["Output Power Z1"], label="HP Output Power Z1", color="mediumseagreen", linewidth=1, linestyle="--")
+        ax.plot(dts, df["Output Power"], label="HP Output Power", color="mediumseagreen", linewidth=1, linestyle="--")
     except KeyError:
         print("No output power")
     # ax.plot(dts, get("E_HW.hs1.heat"), label="HP Input Power HW",  color="tomato", linewidth=1.5)
