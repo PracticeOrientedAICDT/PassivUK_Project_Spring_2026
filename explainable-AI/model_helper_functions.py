@@ -21,17 +21,18 @@ def get(S, n, key):
     return cleaned[:n]
 
 
-def plot_temp_power(df, num_zones):
+def plot_temp_power(df, num_zones, axis_int=6):
     """Plot temperature, power, and cost from the model calculations
     
     Args:
         df (DataFrame): model output data
         num_zones (int): number of zones used for model
+        axis_int (int): interval for the x axis (defaults to 6 hours)
     """
 
     # --- Set up ---
     dts = df["Datetimes"]
-    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=False)
     # fig.suptitle("Passiv Optimisation Results", fontsize=14, fontweight="bold")
 
     # --- Panel 1: Temperatures ---
@@ -77,7 +78,7 @@ def plot_temp_power(df, num_zones):
 
     # X axis formatting
     axes[2].xaxis.set_major_formatter(mdates.DateFormatter("%d %b %H:%M"))
-    axes[2].xaxis.set_major_locator(mdates.HourLocator(interval=6))
+    axes[2].xaxis.set_major_locator(mdates.HourLocator(interval=axis_int))
     plt.xticks(rotation=30, ha="right")
 
     plt.tight_layout()
