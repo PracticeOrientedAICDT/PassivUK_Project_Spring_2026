@@ -125,13 +125,13 @@ Thanks is given to Edwin, Rosie and William from PassivUK for mentoring this pro
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/PracticeOrientedAICDT/Recommendations---Autumn-2025.svg?style=for-the-badge
-[contributors-url]: https://github.com/PracticeOrientedAICDT/Recommendations---Autumn-2025/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/PracticeOrientedAICDT/Recommendations---Autumn-2025.svg?style=for-the-badge
-[forks-url]: https://github.com/PracticeOrientedAICDT/Recommendations---Autumn-2025/network/members
-[stars-shield]: https://img.shields.io/github/stars/PracticeOrientedAICDT/Recommendations---Autumn-2025.svg?style=for-the-badge
-[stars-url]: https://github.com/PracticeOrientedAICDT/Recommendations---Autumn-2025/stargazers
-[issues-shield]: https://img.shields.io/github/issues/PracticeOrientedAICDT/Recommendations---Autumn-2025.svg?style=for-the-badge
-[issues-url]: https://github.com/PracticeOrientedAICDT/Recommendations---Autumn-2025/issues
-[license-shield]: https://img.shields.io/github/license/PracticeOrientedAICDT/Recommendations---Autumn-2025.svg?style=for-the-badge
-[license-url]: https://github.com/PracticeOrientedAICDT/Recommendations---Autumn-2025/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/PracticeOrientedAICDT/PassivUK_Project_Spring_2026.svg?style=for-the-badge
+[contributors-url]: https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/PracticeOrientedAICDT/PassivUK_Project_Spring_2026.svg?style=for-the-badge
+[forks-url]: https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/network/members
+[stars-shield]: https://img.shields.io/github/stars/PracticeOrientedAICDT/PassivUK_Project_Spring_2026.svg?style=for-the-badge
+[stars-url]: https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/stargazers
+[issues-shield]: https://img.shields.io/github/issues/PracticeOrientedAICDT/PassivUK_Project_Spring_2026.svg?style=for-the-badge
+[issues-url]: https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/issues
+[license-shield]: https://img.shields.io/github/license/PracticeOrientedAICDT/PassivUK_Project_Spring_2026.svg?style=for-the-badge
+[license-url]: https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/blob/master/LICENSE.txt
