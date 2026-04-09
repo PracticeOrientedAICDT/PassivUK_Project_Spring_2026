@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 
 # load event files
-data_path = Path("PSTData5")
+data_path = Path("data/PSTData5")
 event_files = data_path.glob("*_Events_*.csv")
 
 houses = {}
@@ -28,6 +28,10 @@ def reformat_schedule(payload):
         
     # find schedule for each day of the week
     schedule = {}
+    schedule["type"] = data.get("type")
+    schedule["zone"] = data.get("zone")
+    schedule["mode"] = data.get("mode")
+    week = {}
     for day in ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]:
         day_schedule = []
         for event in week_schedule:
@@ -39,12 +43,14 @@ def reformat_schedule(payload):
         # get hours and temp for each day in schedule
         hours = []
         C = []
+        
         for event in day_schedule:
             hours.append(int(event["time"].split(":")[0])) # extract hour from time string
             C.append(event.get("C", event.get("preset")))
         
         # reformat schedule for each day as dictionary with hours and temp    
-        schedule[day] = {"hours": hours, "C": C}
+        week[day] = {"hours": hours, "C": C}
+    schedule["schedule"] = week
         
     return schedule
 
@@ -75,10 +81,14 @@ def get_override(payload):
     return None
 
 # loop through each house and reformat schedule and override, then save to new csv file
-Path("PSTData5_reformat").mkdir(exist_ok = True) # create new directory for reformatted files
+dir = "PSTData5_reformat"
+Path(dir).mkdir(exist_ok = True) # create new directory for reformatted files
 
 for house_id, df_house in houses.items():
     df = df_house.copy()
+    
+    # Ensure Payload column can hold complex objects like dictionaries
+    df["Payload"] = df["Payload"].astype(object)
     
     mask = df["Type"] == "Schedule" # only change 'Schedule' rows
     schedule_payloads = df.loc[mask, "Payload"]
@@ -86,7 +96,7 @@ for house_id, df_house in houses.items():
     df.loc[mask,"Override"] = schedule_payloads.apply(get_override) # create new override column for 'Schedule' rows
     df.loc[mask, "Payload"] = schedule_payloads.apply(reformat_schedule) # reformat week schedule for 'Schedule' rows
 
-    df.to_csv(f"PSTData5_reformat/{house_id}_reformat_events.csv", index = False) # save to new csv file
+    df.to_csv(f"{dir}/{house_id}_reformat_events.csv", index = False) # save to new csv file
     
     print(f"{house_id} complete")
     

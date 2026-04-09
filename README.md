@@ -117,7 +117,7 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Thanks is given to Edwin and William from PassivUK for mentoring this project and acting as our industry stakeholders. Thank you also to David, Jack, Kenton, Telmo and Miquel for their support in class.
+Thanks is given to Edwin, Rosie and William from PassivUK for mentoring this project and acting as our industry stakeholders. Thank you also to David, Jack, Kenton, Telmo and Miquel for their support in class.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
