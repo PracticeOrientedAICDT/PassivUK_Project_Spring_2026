@@ -58,7 +58,7 @@ def plot_room_temp(subfig, dates, room_temp, user_setpoint, flow_temp, ext_temp)
     """
     subfig.plot(dates, room_temp, label="Room temperature", c=colours[0])
     subfig.plot(dates, user_setpoint, label="User setpoint", c=colours[1])
-    subfig.plot(dates, flow_temp, label="Flow temperature", c=colours[2])
+    #subfig.plot(dates, flow_temp, label="Flow temperature", c=colours[2])
     if ext_temp is not None:
         subfig.plot(dates, ext_temp, label="External temperature", c=colours[3])
     subfig.grid(visible=True, axis="x")
@@ -95,5 +95,5 @@ def plot_tariff(df, sub_fig, dates, tariff):
     """
     sub_fig.plot(dates, tariff, color=colours[4])
     sub_fig.grid(visible=True, axis="x")
-    sub_fig.set_ylabel("Tariff rate (p/kWh)")
+    sub_fig.set_ylabel("Tariff (p/kWh)")
     sub_fig.set_ylim(df["Tariff rate (p/kWh)"].min()-0.5, df["Tariff rate (p/kWh)"].max()+0.5)
