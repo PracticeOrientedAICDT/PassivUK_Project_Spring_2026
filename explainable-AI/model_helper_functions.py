@@ -21,18 +21,19 @@ def get(S, n, key):
     return cleaned[:n]
 
 
-def plot_temp_power(df, num_zones):
+def plot_temp_power(df, num_zones, axis_int=6):
     """Plot temperature, power, and cost from the model calculations
     
     Args:
         df (DataFrame): model output data
         num_zones (int): number of zones used for model
+        axis_int (int): interval for the x axis (defaults to 6 hours)
     """
 
     # --- Set up ---
     dts = df["Datetimes"]
-    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
-    fig.suptitle("Passiv Optimisation Results", fontsize=14, fontweight="bold")
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=False)
+    # fig.suptitle("Passiv Optimisation Results", fontsize=14, fontweight="bold")
 
     # --- Panel 1: Temperatures ---
     ax = axes[0]
@@ -48,33 +49,36 @@ def plot_temp_power(df, num_zones):
 
     # --- Panel 2: Heat pump power ---
     ax = axes[1]
-    ax.plot(dts, df["Input Power Z1"], label="HP Input Power Z1",  color="mediumseagreen", linewidth=1.5)
-    ax.plot(dts, df["Output Power Z1"],      label="HP Output Power Z1", color="mediumseagreen", linewidth=1, linestyle="--")
-    # ax.plot(dts, get("E_HW.hs1.heat"), label="HP Input Power HW",  color="tomato",         linewidth=1.5)
-    # ax.plot(dts, get("U_HW.hs1"),      label="HP Output Power HW", color="tomato",         linewidth=1, linestyle="--")
+    ax.plot(dts, df["Input Power"], label="HP Input Power",  color="mediumseagreen", linewidth=1.5)
+    try:
+        ax.plot(dts, df["Output Power"], label="HP Output Power", color="mediumseagreen", linewidth=1, linestyle="--")
+    except KeyError:
+        print("No output power")
+    # ax.plot(dts, get("E_HW.hs1.heat"), label="HP Input Power HW",  color="tomato", linewidth=1.5)
+    # ax.plot(dts, get("U_HW.hs1"), label="HP Output Power HW", color="tomato", linewidth=1, linestyle="--")
     ax.set_ylabel("Power (kW)")
     ax.legend(loc="upper right", fontsize=8)
     ax.grid(True, alpha=0.3)
 
     # --- Panel 3: Hot water tank + electricity cost ---
     ax = axes[2]
-    ax.plot(dts, df["Tank Temp"],   label="Tank Temp",   color="hotpink", linewidth=1.5)
-    ax.plot(dts, df["HW Setpoint"], label="HW Setpoint", color="hotpink", linewidth=1, linestyle="--")
-    ax.set_ylabel("Tank Temp (°C)")
+    # ax.plot(dts, df["Tank Temp"],   label="Tank Temp",   color="hotpink", linewidth=1.5)
+    # ax.plot(dts, df["HW Setpoint"], label="HW Setpoint", color="hotpink", linewidth=1, linestyle="--")
+    # ax.set_ylabel("Tank Temp (°C)")
     ax.grid(True, alpha=0.3)
 
-    ax2 = ax.twinx()
-    ax2.plot(dts, df["Elec Cost (p/kWh)"], label="Elec Cost (p/kWh)", color="goldenrod", linewidth=1.5, linestyle="-.")
-    ax2.set_ylabel("Elec Cost (p/kWh)", color="goldenrod")
-    ax2.tick_params(axis="y", labelcolor="goldenrod")
+    # ax2 = ax.twinx()
+    ax.plot(dts, df["Elec Cost (p/kWh)"], label="Elec Cost (p/kWh)", color="goldenrod", linewidth=1.5, linestyle="-.")
+    ax.set_ylabel("Elec Cost (p/kWh)", color="goldenrod")
+    ax.tick_params(axis="y", labelcolor="goldenrod")
 
-    lines1, labels1 = ax.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax.legend(lines1 + lines2, labels1 + labels2, loc="upper right", fontsize=8)
+    # lines1, labels1 = ax.get_legend_handles_labels()
+    # lines2, labels2 = ax2.get_legend_handles_labels()
+    ax.legend(loc="upper right", fontsize=8)
 
     # X axis formatting
     axes[2].xaxis.set_major_formatter(mdates.DateFormatter("%d %b %H:%M"))
-    axes[2].xaxis.set_major_locator(mdates.HourLocator(interval=6))
+    axes[2].xaxis.set_major_locator(mdates.HourLocator(interval=axis_int))
     plt.xticks(rotation=30, ha="right")
 
     plt.tight_layout()
