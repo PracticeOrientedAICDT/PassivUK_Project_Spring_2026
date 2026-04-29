@@ -57,28 +57,49 @@
 
 This project was part of the Practice Projects module in TB2 2026, for the Practice-Oriented AI CDT at the University of Bristol. 
 
-There are two disparate strands in this project which investigated ...
+There are two strands to our interpretability/explainability investigations:
+1. FACE Counterfactual XAI Algorithm
+Adaption of the FACE (Feasible and Actionable Counterfactual Explanations) framework proposed by [Poyiadzi et al.](https://dl.acm.org/doi/10.1145/3375627.3375850).
+
+2. Forecasting-based Counterfactual Analysis
+Using the ecoHeat API to forecast the impact of altering user behaviour across a period of time.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
+Repository files and their purpose - links to each part of the repository associated with the various investigations are provided below:
 
-[Explain project structure here]
+### FACE Algorithm
+TBC
+
+### Forecasting-based Counterfactual Analysis
+- [Setpoint](https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/blob/dev/explainable-AI/setpoint_power_comparison.ipynb)
+    - If the user had their setpoint temperature 1 degree C lower, could they save money?
+- [ecoHeat](https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026/blob/dev/explainable-AI/ecoheat_comparison.ipynb)
+    - If a user had ecoHeat enabled (instead of disabled) could they save money?
+- [Reactive overrides]()
+    - What does one override actually cost? If a user had waited instead of overriding the system, how much money would htey have saved?
+- [Habitual overrides]()
+    - If users with habitual overrides changed their schedule, how much money could they save?
 
 ## Prerequisites
-
-[TBC]
+This repository requires python version 3.14.0.
 
 
 ## Installation
 
-1. Clone the repo
+1. Clone and enter the repo
    ```sh
    git clone https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026.git
+
+   cd PassivUK_Project_Spring_2026
    ```
-2. TBC
+2. To run the code in this repository, set up a virtual environment with python version 3.14.0. Install the required packages using
+    ```sh
+    pip install -r requirements.txt
+    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -86,7 +107,17 @@ There are two disparate strands in this project which investigated ...
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-[TBC]
+### Exploratory Data Analysis (EDA)
+The ```eda``` folder in this repository contains various Jupyter Notebooks exploring various aspects of the Passiv dataset. To run these you will need to copy the data into a folder titled ```data``` within the ```eda``` folder. The notebooks should then be able to run using the virtual environment you made earlier.
+
+### Explainable AI (XAI)
+The ```explainable-AI``` folder in this repository contains our implementations using various XAI techniques.
+
+### FACE algorithm
+TBC
+
+### Forecasting-based Counterfactual Analysis
+A copy of the data must be placed within the ```explainable-AI`` folder in order to run the setpoint and ecoHeat notebooks using the virtual environment. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
