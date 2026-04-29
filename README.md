@@ -15,7 +15,7 @@
 <h3 align="center">PassivUK Project Spring 2026</h3>
 
   <p align="center">
-    This project looked at exploring how explainable AI (XAI) techniques could be used to give informative data displays to users of the PassivUK Smart Heat Pump Thermostat system.
+    This project looked at exploring how explainable AI (XAI) techniques could be used to give informative data displays to users of the PassivUK Smart Heat Pump Thermostat system. To better understand the code in this repository please request a copy of the final report from one of the team members listed below.
     <br />
     <a href="https://github.com/PracticeOrientedAICDT/PassivUK_Project_Spring_2026"><strong>Explore the code »</strong></a>
     <br />
@@ -113,11 +113,11 @@ The ```eda``` folder in this repository contains various Jupyter Notebooks explo
 ### Explainable AI (XAI)
 The ```explainable-AI``` folder in this repository contains our implementations using various XAI techniques.
 
-### FACE algorithm
+#### FACE algorithm
 TBC
 
-### Forecasting-based Counterfactual Analysis
-A copy of the data must be placed within the ```explainable-AI`` folder in order to run the setpoint and ecoHeat notebooks using the virtual environment. 
+#### Forecasting-based Counterfactual Analysis
+A copy of the data must be placed within the ```explainable-AI``` folder in order to run the setpoint and ecoHeat notebooks using the virtual environment. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
