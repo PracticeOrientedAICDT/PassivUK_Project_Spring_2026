@@ -521,90 +521,107 @@ def generate_explanation(
     lines = []
     lines.append(
         f"WHY DID THE MODEL SET ZONE {zone} TO "
-        f"{original_setpoint:.0f}°C AT {original_node.start_hour:02d}:00?"
+        f"{original_setpoint:.0f}\u00b0C AT {original_node.start_hour:02d}:00?"
     )
     lines.append(
-        f"The model set {original_setpoint:.0f}°C because based on "
-        f"previous similar days (outside temp ~{original_node.outside_temp:.0f}°C) "
+        f"The model set {original_setpoint:.0f}\u00b0C because based on "
+        f"previous similar days (outside temp ~{original_node.outside_temp:.0f}\u00b0C) "
         f"that was enough to reach your comfort level by "
         f"{override_time.strftime('%H:%M')}. "
-        f"Your room was at {original_node.zone_start_temp:.1f}°C "
-        f"when you overrode to {override_temp:.1f}°C."
+        f"Your room was at {original_node.zone_start_temp:.1f}\u00b0C "
+        f"when you overrode to {override_temp:.1f}\u00b0C."
     )
 
     lines.append("")
-    lines.append("WHAT IS THE MINIMUM REALISTIC CHANGE?")
 
-    for step in cf_steps:
+    if any(s["override_prevented"] for s in cf_steps):
+        # Found a solution — describe the successful step's schedule
+        lines.append("WHAT SCHEDULE WOULD HAVE PREVENTED THIS?")
+
+        # Describe what's different about the successful schedule
         new_temps = [
-            t for t in step["schedule_temps"]
+            t for t in successful_step["schedule_temps"]
             if isinstance(t, (int, float))
         ]
         new_temp_mean = np.mean(new_temps) if new_temps else original_setpoint
 
-        change_desc = []
+        lines.append(
+            f"  On a previous day with schedule "
+            f"hours={successful_step['schedule_hours']}, "
+            f"temps={successful_step['schedule_temps']}, "
+            f"the room reached {successful_step['room_temp_achieved']:.1f}\u00b0C "
+            f"at this time of day."
+        )
 
-        # Start hour change
-        if step["start_hour"] != original_node.start_hour:
-            delta_h = original_node.start_hour - step["start_hour"]
-            change_desc.append(
-                f"start {abs(delta_h)} hour{'s' if abs(delta_h) > 1 else ''} "
-                f"{'earlier' if delta_h > 0 else 'later'}"
-            )
+        # Summarise the key differences
+        change_parts = []
 
-        # Temperature change — only mention if actually different
+        # Temperature difference
         if abs(new_temp_mean - original_setpoint) > 0.3:
             if new_temp_mean > original_setpoint:
-                change_desc.append(
-                    f"raise target from {original_setpoint:.0f}°C "
-                    f"to {new_temp_mean:.0f}°C"
+                change_parts.append(
+                    f"raising the mean setpoint from "
+                    f"{original_setpoint:.0f}\u00b0C to {new_temp_mean:.0f}\u00b0C"
                 )
             else:
-                change_desc.append(
-                    f"lower target from {original_setpoint:.0f}°C "
-                    f"to {new_temp_mean:.0f}°C"
+                change_parts.append(
+                    f"lowering the mean setpoint from "
+                    f"{original_setpoint:.0f}\u00b0C to {new_temp_mean:.0f}\u00b0C"
                 )
 
-        # Schedule structure change
-        if step["schedule_hours"] != original_node.schedule_hours:
-            if not change_desc:
-                change_desc.append("use a different schedule structure")
+        # Schedule structure difference
+        if successful_step["schedule_hours"] != original_node.schedule_hours:
+            change_parts.append(
+                f"changing the schedule structure from "
+                f"{len(original_node.schedule_hours)} slots to "
+                f"{len(successful_step['schedule_hours'])} slots"
+            )
 
-        if not change_desc:
-            change_desc = ["use similar settings (different day's conditions)"]
-
-        cost_str = ""
-        if abs(step["extra_cost_gbp"]) > 0.001:
-            if step["extra_cost_gbp"] < 0:
-                cost_str = f",saving £{abs(step['extra_cost_gbp']):.2f}"
-            else:
-                cost_str = f",costing an extra £{step['extra_cost_gbp']:.2f}"
+        if change_parts:
+            lines.append(
+                f"  The key difference was: {', and '.join(change_parts)}."
+            )
+        else:
+            lines.append(
+                f"  The schedule was similar but conditions on that day "
+                f"(outside temperature, time of day) led to a warmer room."
+            )
 
         lines.append(
-            f" Step {step['step']}: {' and '.join(change_desc)} "
-            f"room was {step['room_temp_achieved']:.1f}°C on that day"
-            f"{cost_str}"
+            f"  \u2713 This schedule would have prevented your override."
         )
-        if step["override_prevented"]:
-            lines.append(
-                f" This schedule would have prevented your override."
-            )
-            break
 
-    if not any(s["override_prevented"] for s in cf_steps):
+        # Show the path if it took multiple steps
+        if len(cf_steps) > 1:
+            lines.append("")
+            lines.append(
+                f"  (FACE explored {len(cf_steps)} historical days to find "
+                f"this solution, routing through well-tested operating points.)"
+            )
+
+    else:
+        # No solution found
+        lines.append("WHAT IS THE CLOSEST MATCH?")
+        lines.append(
+            f"  The closest historical match achieved "
+            f"{successful_step['room_temp_achieved']:.1f}\u00b0C "
+            f"(gap of {successful_step['comfort_gap']:.1f}\u00b0C from your "
+            f"desired {override_temp:.1f}\u00b0C)."
+        )
         lines.append("")
         lines.append(
-            f"No historical schedule achieved {override_temp}°C "
+            f"  \u2717 No historical schedule achieved {override_temp}\u00b0C "
             f"at this time of day. A larger schedule change may be needed "
             f"that goes beyond what has been tried before."
         )
 
-    if successful_step and abs(successful_step["extra_cost_gbp"]) > 0.001:
+    if successful_step and abs(successful_step.get("extra_cost_gbp", 0)) > 0.001:
         lines.append("")
+        cost = successful_step.get("cumulative_cost_gbp", successful_step.get("extra_cost_gbp", 0))
         lines.append(
             f"Estimated cost difference: "
-            f"£{abs(successful_step['cumulative_cost_gbp']):.2f} "
-            f"{'extra' if successful_step['cumulative_cost_gbp'] > 0 else 'saved'} "
+            f"\u00a3{abs(cost):.2f} "
+            f"{'extra' if cost > 0 else 'saved'} "
             f"per day when conditions are similar."
         )
 
